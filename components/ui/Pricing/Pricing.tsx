@@ -30,19 +30,18 @@ interface Props {
   subscription: SubscriptionWithProduct | null;
 }
 
-type BillingInterval = 'lifetime' | 'year' | 'month';
+type BillingInterval = 'one_time' | 'year' | 'month';
 
 export default function Pricing({ user, products, subscription }: Props) {
   const intervals = Array.from(
     new Set(
       products.flatMap((product) =>
-        product?.prices?.map((price) => price?.interval)
+        product?.prices?.map((price) => price?.interval || 'one_time')
       )
     )
   );
   const router = useRouter();
-  const [billingInterval, setBillingInterval] =
-    useState<BillingInterval>('month');
+  const [billingInterval, setBillingInterval] = useState<BillingInterval>('one_time');
   const [priceIdLoading, setPriceIdLoading] = useState<string>();
   const currentPath = usePathname();
 
@@ -108,21 +107,33 @@ export default function Pricing({ user, products, subscription }: Props) {
         <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
             <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
-              Pricing Plans
+              Abel HR Pricing Plans
             </h1>
             <p className="max-w-2xl m-auto mt-5 text-xl text-zinc-200 sm:text-center sm:text-2xl">
-              Start building for free, then add a site plan to go live. Account
-              plans unlock additional features.
+              Start with the Initial Setup & Audit then add on monthly services to your plan based on your company&apos;s needs!
             </p>
             <div className="relative self-center mt-6 bg-zinc-900 rounded-lg p-0.5 flex sm:mt-8 border border-zinc-800">
+            {intervals.includes('one_time') && (
+                <button
+                  onClick={() => setBillingInterval('one_time')}
+                  type="button"
+                  className={`${
+                    billingInterval === 'one_time'
+                      ? 'relative w-1/3 bg-zinc-700 border-zinc-800 shadow-sm text-white'
+                      : 'ml-0.5 relative w-1/3 border border-transparent text-zinc-400'
+                  } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
+                >
+                  One-Time billing
+                </button>
+              )}
               {intervals.includes('month') && (
                 <button
                   onClick={() => setBillingInterval('month')}
                   type="button"
                   className={`${
                     billingInterval === 'month'
-                      ? 'relative w-1/2 bg-zinc-700 border-zinc-800 shadow-sm text-white'
-                      : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-400'
+                      ? 'relative w-1/3 bg-zinc-700 border-zinc-800 shadow-sm text-white'
+                      : 'ml-0.5 relative w-1/3 border border-transparent text-zinc-400'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
                 >
                   Monthly billing
@@ -134,19 +145,20 @@ export default function Pricing({ user, products, subscription }: Props) {
                   type="button"
                   className={`${
                     billingInterval === 'year'
-                      ? 'relative w-1/2 bg-zinc-700 border-zinc-800 shadow-sm text-white'
-                      : 'ml-0.5 relative w-1/2 border border-transparent text-zinc-400'
+                      ? 'relative w-1/3 bg-zinc-700 border-zinc-800 shadow-sm text-white'
+                      : 'ml-0.5 relative w-1/3 border border-transparent text-zinc-400'
                   } rounded-md m-1 py-2 text-sm font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 focus:z-10 sm:w-auto sm:px-8`}
                 >
                   Yearly billing
                 </button>
               )}
+              
             </div>
           </div>
           <div className="mt-12 space-y-0 sm:mt-16 flex flex-wrap justify-center gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0">
             {products.map((product) => {
               const price = product?.prices?.find(
-                (price) => price.interval === billingInterval
+                (price) => (price.interval || 'one_time') === billingInterval
               );
               if (!price) return null;
               const priceString = new Intl.NumberFormat('en-US', {
@@ -178,9 +190,11 @@ export default function Pricing({ user, products, subscription }: Props) {
                       <span className="text-5xl font-extrabold white">
                         {priceString}
                       </span>
-                      <span className="text-base font-medium text-zinc-100">
-                        /{billingInterval}
-                      </span>
+                      {billingInterval !== 'one_time' && (
+                        <span className="text-base font-medium text-zinc-100">
+                          /{billingInterval}
+                        </span>
+                      )}
                     </p>
                     <Button
                       variant="slim"
@@ -196,7 +210,6 @@ export default function Pricing({ user, products, subscription }: Props) {
               );
             })}
           </div>
-          <LogoCloud />
         </div>
       </section>
     );
