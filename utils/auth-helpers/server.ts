@@ -72,7 +72,7 @@ export async function signInWithEmail(formData: FormData) {
     redirectPath = getStatusRedirect(
       '/signin/email_signin',
       'Success!',
-      'Please check your email for a magic link. You may now close this tab.',
+      'Please sign in with your new account!',
       true
     );
   } else {
@@ -209,7 +209,7 @@ export async function signUp(formData: FormData) {
     redirectPath = getStatusRedirect(
       '/',
       'Success!',
-      'Please check your email for a confirmation link. You may now close this tab.'
+      'Please sign in with your new account'
     );
   } else {
     redirectPath = getErrorRedirect(
