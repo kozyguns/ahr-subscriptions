@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { signInWithOAuth } from '@/utils/auth-helpers/client';
 import { type Provider } from '@supabase/supabase-js';
 import { PersonIcon } from '@radix-ui/react-icons';
@@ -24,7 +24,8 @@ export default function OauthSignIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true); // Disable the button while the request is being handled
+    e.preventDefault();
+    setIsSubmitting(true);
     await signInWithOAuth(e);
     setIsSubmitting(false);
   };
@@ -35,11 +36,11 @@ export default function OauthSignIn() {
         <form
           key={provider.name}
           className="pb-2"
-          onSubmit={(e) => handleSubmit(e)}
+          onSubmit={handleSubmit}
         >
           <input type="hidden" name="provider" value={provider.name} />
           <Button
-            variant="slim"
+            variant="ringHover"
             type="submit"
             className="w-full"
             loading={isSubmitting}

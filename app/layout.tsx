@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/Toasts/toaster';
 import { PropsWithChildren, Suspense } from 'react';
 import { getURL } from '@/utils/helpers';
 import 'styles/main.css';
+import { ThemeProvider } from "@/components/theme-provider"
 
 // const title = 'Next.js Subscription Starter';
 // const description = 'Brought to you by Vercel, Stripe, and Supabase.';
@@ -22,14 +23,23 @@ import 'styles/main.css';
 export default async function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
-      <body className="bg-black">
+      <body className="">
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
         <Navbar />
+        
         <main
           id="skip"
           className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
         >
           {children}
         </main>
+        </ThemeProvider>
+
         <Suspense>
           <Toaster />
         </Suspense>
