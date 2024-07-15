@@ -68,7 +68,7 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
             <input type="hidden" name="pathName" value={pathname} />
             <button
               type="submit"
-              className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+              className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
             >
               Sign out
             </button>
@@ -76,7 +76,7 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
         ) : (
           <Link
             href="/signin"
-            className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+            className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           >
             Sign In
           </Link>

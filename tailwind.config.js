@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -58,7 +59,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        "shine": {
+        shine: {
            from: { backgroundPosition: '200% 0' },
            to: { backgroundPosition: '-200% 0' },
         },
@@ -72,11 +73,33 @@ module.exports = {
         },
       },
       animation: {
-        "shine": "shine 8s ease-in-out infinite",
+        shine: "shine 8s ease-in-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addBase, theme }) {
+      const colors = theme('colors');
+      const flattenColors = (colors, prefix = '') =>
+        Object.keys(colors).reduce((acc, key) => {
+          const value = colors[key];
+          const newPrefix = prefix ? `${prefix}-${key}` : key;
+
+          if (typeof value === 'string') {
+            acc[newPrefix] = value;
+          } else {
+            Object.assign(acc, flattenColors(value, newPrefix));
+          }
+
+          return acc;
+        }, {});
+
+      addBase({
+        ':root': flattenColors(colors),
+      });
+    },
+  ],
+};

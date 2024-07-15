@@ -10,6 +10,7 @@ import { User } from '@supabase/supabase-js';
 import cn from 'classnames';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { TracingBeam } from '../tracing-beam';
 
 type Subscription = Tables<'subscriptions'>;
 type Product = Tables<'products'>;
@@ -103,6 +104,7 @@ export default function Pricing({ user, products, subscription }: Props) {
     );
   } else {
     return (
+      <TracingBeam className="px-6">
       <section >
         <div className="max-w-6xl px-4 py-8 mx-auto sm:py-24 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
@@ -212,6 +214,7 @@ export default function Pricing({ user, products, subscription }: Props) {
           </div>
         </div>
       </section>
+      </TracingBeam>
     );
   }
 }
