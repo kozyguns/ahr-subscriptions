@@ -1,3 +1,4 @@
+// components/ui/AuthForms/OauthSignIn.tsx
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -19,14 +20,16 @@ export default function OauthSignIn() {
       displayName: 'Google',
       icon: <PersonIcon className="h-5 w-5" />
     }
-    /* Add desired OAuth providers here */
   ];
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const providerName = form.provider.value;
+    console.log('Submitting form for provider:', providerName);
     setIsSubmitting(true);
-    await signInWithOAuth(e);
+    await signInWithOAuth(providerName);
     setIsSubmitting(false);
   };
 
