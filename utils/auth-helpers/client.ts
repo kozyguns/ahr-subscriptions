@@ -1,41 +1,42 @@
-// utils/auth-helpers/client.ts
 'use client';
 
 import { createClient } from '@/utils/supabase/client';
 import { type Provider } from '@supabase/supabase-js';
 import { getURL } from '@/utils/helpers';
-import { redirectToPath } from './server';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { redirectToPath } from './server';
 
 export async function handleRequest(
   e: React.FormEvent<HTMLFormElement>,
-  requestFunc: (formData: FormData) => Promise<string>,
+  requestFunc: (formData: FormData) => Promise<any>,
   router: AppRouterInstance | null = null
-): Promise<boolean | void> {
+): Promise<any> {
   e.preventDefault();
   const formData = new FormData(e.currentTarget);
-  const redirectUrl: string = await requestFunc(formData);
+  const response = await requestFunc(formData);
+
   if (router) {
-    return router.push(redirectUrl);
+    await router.push(response.redirectUrl);
   } else {
-    return await redirectToPath(redirectUrl);
+    await redirectToPath(response.redirectUrl);
   }
+
+  return response;
 }
 
 export async function signInWithOAuth(providerName: string) {
-  try {
-    const supabase = createClient();
-    const redirectURL = getURL('/auth/callback');
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: providerName as Provider,
-      options: { redirectTo: redirectURL }
-    });
-    if (error) {
-      console.error('Error during OAuth sign-in:', error.message);
-      throw error;
-    }
-    console.log('OAuth sign-in data:', data);
-  } catch (error) {
-    console.error('signInWithOAuth error:', error);
+  const supabase = createClient();
+  const redirectURL = getURL('/auth/callback');
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: providerName as Provider,
+    options: { redirectTo: redirectURL }
+  });
+
+  if (error) {
+    console.error('Error during OAuth sign-in:', error.message);
+    throw error;
   }
+
+  // Return full response including provider and URL
+  return { data, provider: providerName, url: redirectURL };
 }

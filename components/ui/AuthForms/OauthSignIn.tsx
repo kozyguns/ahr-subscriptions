@@ -6,6 +6,7 @@ import { signInWithOAuth } from '@/utils/auth-helpers/client';
 import { type Provider } from '@supabase/supabase-js';
 import { PersonIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type OAuthProviders = {
   name: Provider;
@@ -14,6 +15,7 @@ type OAuthProviders = {
 };
 
 export default function OauthSignIn() {
+  const router = useRouter();
   const oAuthProviders: OAuthProviders[] = [
     {
       name: 'google',
@@ -27,10 +29,15 @@ export default function OauthSignIn() {
     e.preventDefault();
     const form = e.currentTarget;
     const providerName = form.provider.value;
-    console.log('Submitting form for provider:', providerName);
     setIsSubmitting(true);
+    console.log('Attempting to sign in with OAuth provider:', providerName);
     await signInWithOAuth(providerName);
     setIsSubmitting(false);
+
+    // Redirect to account page with a query parameter indicating success
+    const accountUrl = new URL('/account', window.location.origin);
+    accountUrl.searchParams.set('login', 'success');
+    router.push(accountUrl.toString());
   };
 
   return (

@@ -1,12 +1,12 @@
 'use client';
 
-import {Button} from '@/components/ui/button';
-
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { signInWithPassword } from '@/utils/auth-helpers/server';
 import { handleRequest } from '@/utils/auth-helpers/client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { toast } from 'sonner';
 
 // Define prop type with allowEmail boolean
 interface PasswordSignInProps {
@@ -23,8 +23,14 @@ export default function PasswordSignIn({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsSubmitting(true); // Disable the button while the request is being handled
-    await handleRequest(e, signInWithPassword, router);
+    const response = await handleRequest(e, signInWithPassword, router);
     setIsSubmitting(false);
+
+    if (response?.user?.user_metadata?.full_name) {
+      toast(`Welcome Back ${response.user.user_metadata.full_name}!`);
+    } else {
+      toast('Remember to sign back in!');
+    }
   };
 
   return (

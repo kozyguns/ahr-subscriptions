@@ -16,6 +16,7 @@ import {
   NavigationMenuIndicator,
   NavigationMenuViewport,
 } from '@/components/ui/navigation-menu';
+import { Button } from './button';
 
 interface NavbarClientProps {
   user?: any;
@@ -66,19 +67,23 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
         {user ? (
           <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
             <input type="hidden" name="pathName" value={pathname} />
-            <button
+            <Button
               type="submit"
+              variant="linkHover2"
               className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
             >
+
               Sign out
-            </button>
+            </Button>
           </form>
         ) : (
           <Link
             href="/signin"
             className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           >
+            <Button variant="linkHover2" >
             Sign In
+            </Button>
           </Link>
         )}
       </div>

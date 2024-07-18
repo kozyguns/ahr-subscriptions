@@ -135,7 +135,6 @@ export async function signInWithPassword(formData: FormData) {
   const cookieStore = cookies();
   const email = String(formData.get('email')).trim();
   const password = String(formData.get('password')).trim();
-  let redirectPath: string;
 
   const supabase = createClient();
   const { error, data } = await supabase.auth.signInWithPassword({
@@ -144,24 +143,32 @@ export async function signInWithPassword(formData: FormData) {
   });
 
   if (error) {
-    redirectPath = getErrorRedirect(
-      '/signin/password_signin',
-      'Sign in failed.',
-      error.message
-    );
+    return {
+      redirectUrl: getErrorRedirect(
+        '/signin/password_signin',
+        'Sign in failed.',
+        error.message
+      ),
+      user: null
+    };
   } else if (data.user) {
     cookieStore.set('preferredSignInView', 'password_signin', { path: '/' });
-    redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.');
+    return {
+      redirectUrl: getStatusRedirect('/', 'Success!', 'You are now signed in.'),
+      user: data.user
+    };
   } else {
-    redirectPath = getErrorRedirect(
-      '/signin/password_signin',
-      'Hmm... Something went wrong.',
-      'You could not be signed in.'
-    );
+    return {
+      redirectUrl: getErrorRedirect(
+        '/signin/password_signin',
+        'Hmm... Something went wrong.',
+        'You could not be signed in.'
+      ),
+      user: null
+    };
   }
-
-  return redirectPath;
 }
+
 
 export async function signUp(formData: FormData) {
   const callbackURL = getURL('/auth/callback');
