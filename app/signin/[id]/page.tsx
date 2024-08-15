@@ -8,7 +8,7 @@ import {
   getDefaultSignInView,
   getRedirectMethod
 } from '@/utils/auth-helpers/settings';
-import Card from '@/components/ui/Card';
+import CardNoBorder from '@/components/ui/Card/CardNoBorder';
 import PasswordSignIn from '@/components/ui/AuthForms/PasswordSignIn';
 import EmailSignIn from '@/components/ui/AuthForms/EmailSignIn';
 import Separator from '@/components/ui/AuthForms/Separator';
@@ -60,7 +60,7 @@ export default async function SignIn({
         <div className="flex justify-center pb-12 ">
           <Logo width="64px" height="64px" />
         </div>
-        <Card
+        <CardNoBorder
           title={
             viewProp === 'forgot_password'
               ? 'Reset Password'
@@ -105,7 +105,7 @@ export default async function SignIn({
                 <OauthSignIn />
               </>
             )}
-        </Card>
+        </CardNoBorder>
       </div>
     </div>
   );
