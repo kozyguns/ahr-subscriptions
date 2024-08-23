@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
   NavigationMenuIndicator,
-  NavigationMenuViewport,
+  NavigationMenuViewport
 } from '@/components/ui/navigation-menu';
 import { Button } from './button';
 
@@ -40,7 +40,9 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
                       href="/"
                       className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                     >
-                      <div className="text-sm font-medium leading-none">Pricing</div>
+                      <div className="text-sm font-medium leading-none">
+                        Pricing
+                      </div>
                     </Link>
                   </NavigationMenuLink>
                 </li>
@@ -51,7 +53,9 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
                         href="/account"
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       >
-                        <div className="text-sm font-medium leading-none">Account</div>
+                        <div className="text-sm font-medium leading-none">
+                          Account
+                        </div>
                       </Link>
                     </NavigationMenuLink>
                   </li>
@@ -72,18 +76,15 @@ const NavbarClient: React.FC<NavbarClientProps> = ({ user }) => {
               variant="linkHover2"
               className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
             >
-
               Sign out
             </Button>
           </form>
         ) : (
           <Link
             href="/signin"
-            className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer  rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+            className="inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer rounded-md p-1 hover:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           >
-            <Button variant="linkHover2" >
-            Sign In
-            </Button>
+            <Button variant="linkHover2">Sign In</Button>
           </Link>
         )}
       </div>
