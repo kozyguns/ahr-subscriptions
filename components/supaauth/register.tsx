@@ -1,3 +1,4 @@
+// sign up page
 "use client";
 import React from "react";
 import SignUp from "./signup";
