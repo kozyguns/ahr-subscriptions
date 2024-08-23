@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Register() {
 	const queryString =
-		typeof window !== "undefined" ? window?.location.search : ""
+		typeof window !== "undefined" ? window?.location.search : "";
 	const urlParams = new URLSearchParams(queryString);
 
 	// Get the value of the 'next' parameter
